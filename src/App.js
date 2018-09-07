@@ -3,16 +3,24 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+componentDidMount(){
+  const musicWebSocket = this.openConnection()
+
+  musicWebSocket.onopen = (event) => {
+    const subscribeMsg = {"command":"subscribe","identifier":"{\"channel\":\"MusicMessagesChannel\"}"}
+    musicWebSocket.send(JSON.stringify(subscribeMsg))
+  }
+}
+
+openConnection = () => {
+  return new WebSocket("ws://localhost:3000/cable")
+}
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+
       </div>
     );
   }
