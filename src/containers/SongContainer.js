@@ -138,12 +138,11 @@ export default class SongContainer extends Component {
      console.log(this.state.musicChannels);
      return (
         <div>
-<<<<<<< HEAD
           <div>
-            <Midi notation={this.displayNotation(}/>
+            <Midi notation={this.displayNotation()}/>
           </div>
           <div>
-            <Notation notation={this.displayNotation(}/>
+            <Notation notation={this.displayNotation()}/>
           </div>
           <div>
             <SongView
@@ -159,17 +158,6 @@ export default class SongContainer extends Component {
             // notation={this.state.notation}
             />
           </div>
-=======
-          <div>Midi <Midi notation={this.displayNotation()}/></div>
-          <div>Notation <Notation notation={this.displayNotation()}/></div>
-          <SongView
-          handleSongChange={this.handleSongChange}
-          handleTextAreaOnBlur={this.handleTextAreaOnBlur}
-          handleTextAreaOnFocus={this.handleTextAreaOnFocus}/>
-          <div>Piano <BasicPiano
-          stateOfTextArea={this.state.inTextAreas}
-           captureNote={this.captureNote} /> </div>
->>>>>>> 22de47b1ff4d9ba3c64648d2edefa5a3f97c6fe2
         </div>
      )
    }
