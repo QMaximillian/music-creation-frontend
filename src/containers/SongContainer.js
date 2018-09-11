@@ -107,10 +107,9 @@ export default class SongContainer extends Component {
   }
 
   componentDidMount() {
-    fetch(`${API_ROOT}/api/v1/music_channels`)
+    fetch(`${API_ROOT}/api/v1/users`)
       .then(res => res.json())
-      .then(musicChannels => this.setState({ musicChannels: musicChannels.data })
-    )
+      .then(console.log)
   }
 
   handleSongChange = (event) => {
@@ -135,7 +134,6 @@ export default class SongContainer extends Component {
 
 
    render() {
-     console.log(this.state.musicChannels);
      return (
         <div>
           <div>

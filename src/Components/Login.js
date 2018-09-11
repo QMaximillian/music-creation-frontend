@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { fetchLoginUser } from '../authAdapter'
-import SongContainer from '../containers/SongContainer'
+import HomeContainer from '../containers/HomeContainer'
+import { Route } from 'react-router-dom'
 export default class Login extends Component {
 
   state = {
@@ -28,15 +29,14 @@ export default class Login extends Component {
     event.preventDefault()
     fetchLoginUser(this.state.fields).then(resp => {
       this.props.handleLoginUser(resp.user)
+      localStorage.setItem('token', resp.jwt)
     })
-
-
   }
 
    render() {
      const { fields } = this.state
      if (this.props.loggedIn) {
-       return <SongContainer />
+       return <Redirect to='profile'/>
      } else {
      return (
         <div>
@@ -62,6 +62,8 @@ export default class Login extends Component {
               </div>
               <button type="text">Login</button>
             </form>
+          </div>
+          <div>
           </div>
         </div>
      )

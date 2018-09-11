@@ -1,5 +1,5 @@
 export const fetchLoginUser = (user) => {
-  console.log(user)
+  // console.log(user)
   const url = 'http://localhost:3001/api/v1/login'
 
   const options = {
