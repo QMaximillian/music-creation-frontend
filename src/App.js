@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import SongContainer from './containers/SongContainer'
+import SongContainer from './Containers/SongContainer'
 
 
 export default class App extends Component {
