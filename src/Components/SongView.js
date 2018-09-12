@@ -20,9 +20,9 @@ const SongView = (props) => {
         </input>
         <textarea
           // style={{ width:"500px", height:"300px" }}
-          name="lyric"
+          name="lyrics"
           placeholder="Lyrics"
-          // value={props.song.attributes.lyric}
+          // value={props.lyrics}
           onChange={(event) => props.handleSongChange(event)}
         >
         </textarea>

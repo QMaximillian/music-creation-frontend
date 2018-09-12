@@ -16,7 +16,7 @@ const keyboardShortcuts = KeyboardShortcuts.create({
   keyboardConfig: KeyboardShortcuts.HOME_ROW,
 })
 
-export default function BasicPiano({captureNote}) {
+export default function BasicPiano({captureNote, stateOfTextArea}) {
   return (
     <SoundfontProvider
       instrumentName="acoustic_grand_piano"
@@ -37,7 +37,7 @@ export default function BasicPiano({captureNote}) {
 
           width={1000}
 
-          keyboardShortcuts={keyboardShortcuts}
+          keyboardShortcuts={stateOfTextArea ? null:keyboardShortcuts}
 
           disabled={isLoading}
         />
