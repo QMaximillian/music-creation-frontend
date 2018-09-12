@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 // import Editor from './Components/Editor'
+import { ActionCable } from 'react-actioncable-provider'
+import { API_ROOT } from '../constants';
 import MidiContainer from '../Components/Midi'
 import Notation from '../Components/Notation'
 import Editor from '../Components/Editor'
@@ -148,6 +150,12 @@ export default class SongContainer extends Component {
     }
   }
 
+  // handleSongChange = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   }, () => console.log("handle song change", this.state))
+  //     }
+
   generateLyrics = (word) => {
     console.log("gen", word);
     let addedWord = []
@@ -188,20 +196,32 @@ export default class SongContainer extends Component {
   // }
 
    render() {
+     // console.log(this.props.clearSong)
      return (
         <div>
-          <div>Midi <MidiContainer generateAudStr={this.generateAudStr()}/></div>
+          <button onClick={() => this.props.clearSong()}>Clear Song</button>
+          <div>
+            <MidiContainer generateAudStr={this.generateAudStr()}/></div>
           {/* <div>Midi <Midi generateAudStr={"^D4 ^D4 ^D4 ^D4|^D4 ^F4 ^G4 ^G4|^G4  yy  yy  yy| yy  yy  yy  yy"}/></div> */}
           {/* <div>Editor <Editor notation={this.displayNotation}/></div> */}
-          <div>Notation <Notation notation={this.displayNotation()}/></div>
-          <SongView lyrics={this.state.lyrics} handleKeyPress={this.handleKeyPress}
-          handleSongChange={this.handleSongChange}
-          handleTextAreaOnBlur={this.handleTextAreaOnBlur}
-          handleTextAreaOnFocus={this.handleTextAreaOnFocus}/>
-          <div>Piano <BasicPiano
-          stateOfTextArea={this.state.inTextAreas}
-           captureNote={this.captureNote} /> </div>
+          <div>
+            <Notation notation={this.displayNotation()}/>
+          </div>
+          <div>
+            <SongView
+              lyrics={this.state.lyrics}
+              handleKeyPress={this.handleKeyPress}
+              handleSongChange={this.handleSongChange}
+              handleTextAreaOnBlur={this.handleTextAreaOnBlur}
+              handleTextAreaOnFocus={this.handleTextAreaOnFocus}
+            />
+          </div>
+          <div>
+            <BasicPiano
+            stateOfTextArea={this.state.inTextAreas}
+             captureNote={this.captureNote} />
+         </div>
         </div>
      )
    }
- };
+ }
