@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SongContainer from '../containers/SongContainer'
-import HomeContainer from '../containers/HomeContainer'
-import { Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+// import HomeContainer from '../containers/HomeContainer'
 
 export default class MusicianSongRoom extends Component {
 
@@ -30,7 +30,7 @@ export default class MusicianSongRoom extends Component {
       // Rendering SongContainer? Or a specific MusicRoomContainer? //
       console.log(this.props.musicianSongRoom)
         return <SongContainer
-          clearSong={this.clearSong} currentSong={this.state.currentSong}/>
+          clearSong={this.clearSong} id={this.state.currentSong.id}/>
     }
 
    render() {
@@ -41,7 +41,9 @@ export default class MusicianSongRoom extends Component {
           {
             this.state.empty ?
             <div onDoubleClick={() => this.handleSongPick(this.props.musicianSongRoom)}>
+              <Link to={`/song-room/${this.props.musicianSongRoom.id}`}>
               <div>{song_name}</div>
+            </Link>
             </div> :
             this.renderMusicianSongPage()
           }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import withAuth from '../hocs/withAuth'
 import MusicianSongRoom from '../components/MusicianSongRoom'
 import LyricistSongRoom from '../components/LyricistSongRoom'
 import { fetchPostLyricSongRoom, fetchPostMusicSongRoom } from '../fetchAdapter'
 
+// import { Route } from 'react-router-dom'
 // import { Redirect } from 'react-router-dom'
 
 class HomeContainer extends Component {

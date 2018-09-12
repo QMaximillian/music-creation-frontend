@@ -1,29 +1,37 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 
-const SongView = (props) => {
-  // console.log(props);
+
+export default class SongView extends Component {
+  // console.log(this.props);
+
+
+  // handleReceiveNewText = ({ content }) => {
+  //   if (content !== this.state.content) {
+  //     this.setState({ content })
+  //   }
+  // }
+
+
+
+
+
+  render () {
+    // this.fetchWebSocket()
   return(
     <div>
       <form
-        onBlur={props.handleTextAreaOnBlur}
-        onFocus={props.handleTextAreaOnFocus}
-        className="ui grid container" onSubmit={props.handleSongSubmit}
+        onBlur={this.props.handleTextAreaOnBlur}
+        onFocus={this.props.handleTextAreaOnFocus}
+        className="ui grid container" onSubmit={this.props.handleSongSubmit}
       >
-        <input
-            // style={{ width:"500px", height:"300px" }}
-            name="songName"
-            placeholder={"Song Name"}
-            // value={props.song.attributes.name}
-            onChange={(event) => props.handleSongChange(event)}
-          >
-        </input>
+        <label>Song Name</label>
         <textarea
           // style={{ width:"500px", height:"300px" }}
-          name="lyric"
+          name="content"
           placeholder="Lyrics"
-          // value={props.song.attributes.lyric}
-          onChange={(event) => props.handleSongChange(event)}
+          value={this.props.content}
+          onChange={(event) => this.props.handleLyricChange(event)}
         >
         </textarea>
         <button
@@ -34,6 +42,4 @@ const SongView = (props) => {
 
   )
 }
-
-
-export default SongView
+}

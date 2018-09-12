@@ -1,20 +1,74 @@
 import React, { Component } from 'react'
 // import Editor from './Components/Editor'
-import { ActionCable } from 'react-actioncable-provider'
-import { API_ROOT } from '../constants';
+// import { API_ROOT } from '../constants';
 import Midi from '../components/Midi'
 import Notation from '../components/Notation'
 import BasicPiano from '../components/Piano'
 import SongView from '../components/SongView.js'
+// import ActionCable from 'actioncable'
 
-export default class SongContainer extends Component {
 
-  state = {
-    notes: [],
-    inTextAreas: false,
-    songName: "",
-    lyric: ""
+
+class SongContainer extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      notes: [],
+      inTextAreas: false,
+      content: '',
+      lyricMessageId: 0
+    }
+
+  //   const cable = ActionCable.createConsumer('ws://localhost:3001/api/v1/cable')
+  //
+  //   this.sub = cable.subscriptions.create('LyricsChannel', {
+  // received: this.handleLyricChange
+    // })
   }
+
+
+  componentDidMount () {
+    this.fetchGetSongRoom()
+  }
+
+  //ActionCable Stuff
+
+
+  fetchGetSongRoom = () => {
+    fetch(`http://localhost:3001/api/v1/song_rooms/${this.props.id}`, {
+      method: "GET",
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    }
+  }).then(resp => resp.json()).then(resp =>
+
+    this.setState({
+      lyricMessageId: resp.data.attributes['lyric-message'].id,
+    content: resp.data.attributes['lyric-message']['content']
+  }))
+}
+
+
+  fetchUpdateSongRoom = (event) => {
+    event.preventDefault()
+
+    fetch(`http://localhost:3001/api/v1/lyric_messages/${this.state.lyricMessageId}`, {
+      method: "PATCH",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      },
+      body: JSON.stringify({content: this.state.content})
+      })
+  }
+
+
+
+
 
   setNotes = (notes) => {
     this.setState({
@@ -31,58 +85,40 @@ export default class SongContainer extends Component {
     switch (midi) {
       case 60:
          return "C4"
-        break;
       case 61:
          return "^C4"
-        break;
       case 62:
          return "D4"
-        break;
       case 63:
          return "^D4"
-        break;
       case 64:
          return "E4"
-        break;
       case 65:
          return "F4"
-        break;
       case 66:
          return "^F4"
-        break;
       case 67:
          return "G4"
-        break;
       case 68:
          return "^G4"
-        break;
       case 69:
          return "A4"
-        break;
       case 70:
          return "^A4"
-        break;
       case 71:
          return "B4"
-        break;
       case 72:
          return "C5"
-        break;
       case 73:
          return "^C5"
-        break;
       case 74:
          return "D5"
-        break;
       case 75:
          return "^D5"
-        break;
       case 76:
          return "E5"
-        break;
       case 77:
          return "F5"
-        break;
       default:
          " "
 
@@ -106,18 +142,6 @@ export default class SongContainer extends Component {
     return notation
   }
 
-  // componentDidMount() {
-  //   fetch(`${API_ROOT}/api/v1/users`)
-  //     .then(res => res.json())
-  //     .then(console.log)
-  // }
-
-  handleSongChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    }, () => console.log("handle song change", this.state))
-  }
-
   handleTextAreaOnFocus = (event) => {
     event.persist()
       this.setState({
@@ -132,12 +156,23 @@ export default class SongContainer extends Component {
       })
   }
 
+  handleLyricChange = (event) => {
+
+    if (this.state.content !== event.target.value) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+     // () => console.log("handle song change", this.state)
+  }
+  }
+
 
    render() {
-     // console.log(this.props.clearSong)
+
      return (
         <div>
-          <button onClick={() => this.props.clearSong()}>Clear Song</button>
+
+          <button onClick={(event) => this.fetchUpdateSongRoom(event)}>Save Song</button>
           <div>
             <Midi notation={this.displayNotation()}/>
           </div>
@@ -146,7 +181,8 @@ export default class SongContainer extends Component {
           </div>
           <div>
             <SongView
-              handleSongChange={this.handleSongChange}
+              content={this.state.content}
+              handleLyricChange={this.handleLyricChange}
               handleTextAreaOnBlur={this.handleTextAreaOnBlur}
               handleTextAreaOnFocus={this.handleTextAreaOnFocus}
             />
@@ -162,3 +198,5 @@ export default class SongContainer extends Component {
      )
    }
  }
+
+ export default SongContainer

@@ -1,6 +1,6 @@
-const headerOptions = {
-
-}
+// const headerOptions = {
+//
+// }
 
 export const fetchGetUser = (user_id) => {
   return fetch(`http://localhost:3001/api/v1/users/${user_id}`,

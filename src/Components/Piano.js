@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import SoundfontProvider from './SoundfontProvider';
 import 'react-piano/build/styles.css';
@@ -16,7 +15,7 @@ const keyboardShortcuts = KeyboardShortcuts.create({
   keyboardConfig: KeyboardShortcuts.HOME_ROW,
 })
 
-export default function BasicPiano({captureNote}) {
+export default function BasicPiano({ captureNote }) {
   return (
     <SoundfontProvider
       instrumentName="acoustic_grand_piano"

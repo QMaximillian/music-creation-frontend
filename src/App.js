@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, Link } from 'react-router-dom'
 import './App.css'
 // import SongContainer from './containers/SongContainer'
 // import UserSignUp from './components/UserSignUp'
@@ -7,6 +7,7 @@ import Login from './components/Login'
 import HomeContainer from './containers/HomeContainer'
 import { fetchReauthUser } from './authAdapter'
 import Navbar from './components/Navbar.js'
+import SongContainer from './containers/SongContainer'
 import { fetchGetUser } from './fetchAdapter'
 
 
@@ -17,14 +18,14 @@ export default class App extends Component {
       authenticating: true,
       currentUser: {}
     },
-    musicianSongRooms: [],
-    lyricistSongRooms: []
+    musicianSongRooms: {},
+    lyricistSongRooms: {}
   }
 
   componentDidMount(){
     if (localStorage.getItem('token')) {
       fetchReauthUser().then(resp => {
-        this.handleLoginUser(resp.user)
+     this.handleLoginUser(resp.user)
       })
     } else {
       this.setState(prevState => {
@@ -36,6 +37,7 @@ export default class App extends Component {
         }
       })
     }
+
   }
 
   handleLoginUser = (user) => {
@@ -43,7 +45,7 @@ export default class App extends Component {
   this.setState(prevState => ({
     auth: {
       ...prevState.auth,
-      authenticating: false,
+      // authenticating: false,
       currentUser: user
     }
   }), () => fetchGetUser(this.state.auth.currentUser.id).then(resp => this.setState({
@@ -51,6 +53,7 @@ export default class App extends Component {
     lyricistSongRooms: resp
   })))
 }
+
 
   handleLogout = () => {
     this.setState(prevState => {
@@ -62,10 +65,14 @@ export default class App extends Component {
       }
     })
     localStorage.clear()
+
+    return <Link to='/' />
   }
 
   handleUserSongRoomsMusician = () => {
+    console.log("Musician", this.state.musicianSongRooms);
     if (Object.keys(this.state.musicianSongRooms).length > 0) {
+      console.log(this.state.musicianSongRooms);
       return this.state.musicianSongRooms.data.attributes['lyricist-song-rooms']
     }
   }
@@ -80,8 +87,7 @@ export default class App extends Component {
 
 
   render() {
-    // console.log(this.state.musicianSongRooms.data)
-    const loggedIn = !!this.state.auth.currentUser.id
+      const loggedIn = !!this.state.auth.currentUser.id
     return (
       <Fragment>
         <Navbar
@@ -94,6 +100,10 @@ export default class App extends Component {
           loggedIn={loggedIn} currentUser={this.state.auth.currentUser}/>}/>
           <Route exact path='/login' render={() => <Login
             loggedIn={loggedIn} handleLoginUser={this.handleLoginUser}/>}/>
+          />
+          <Route exact path='/song-room/:id' render={(props) => {
+            const matchID=props.match.params.id
+          return <SongContainer id={matchID}/>}}/>
         </Switch>
       </Fragment>
     )
