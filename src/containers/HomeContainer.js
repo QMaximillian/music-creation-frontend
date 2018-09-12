@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import withAuth from '../hocs/withAuth'
 import MusicianSongRoom from '../components/MusicianSongRoom'
 import LyricistSongRoom from '../components/LyricistSongRoom'
+import { fetchPostLyricSongRoom, fetchPostMusicSongRoom } from '../fetchAdapter'
+
 // import { Redirect } from 'react-router-dom'
 
 class HomeContainer extends Component {
@@ -29,25 +32,35 @@ class HomeContainer extends Component {
       }
     }
 
+    createRoom = (type, id) => {
+      if (type === "musician") {
+        fetchPostMusicSongRoom(id)
+      }
+
+      if (type === 'lyricist') {
+        fetchPostLyricSongRoom(id)
+      }
+    }
 
     render() {
-      // console.log(this.props.lyricistSongRooms)
+      const { id } = this.props.currentUser
        return (
 
         <div>
           <label>MusicRooms</label>
-
+          <button onClick={() => this.createRoom("musician", id)}>Create MusicRoom</button>
           {this.mappedMusicianSongRooms()}
-          <div>
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
+            <div>
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
           <label>LyricRooms</label>
-
+          <button onClick={() => this.createRoom("lyricist", id)}>Create LyricRoom</button>
           {this.mappedLyricistSongRooms()}
         </div>
+
      )
    }
 }
