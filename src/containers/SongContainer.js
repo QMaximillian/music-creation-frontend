@@ -19,7 +19,7 @@ export default class SongContainer extends Component {
   setNotes = (notes) => {
     this.setState({
       notes: notes
-    }, () => {console.log("setnotes", this.state.notes)
+    //}, () => {console.log("setnotes", this.state.notes)
 })
   }
 
@@ -90,27 +90,27 @@ export default class SongContainer extends Component {
   }
 
   generateNotation = (midiNumber) => {
-    console.log("midi",midiNumber)
+    // console.log("midi",midiNumber)
     const note = this.translateMidi(midiNumber)
-    console.log("note", note)
+    // console.log("note", note)
     const addedNote = [...this.state.notes, note]
-    console.log("addedNote", addedNote)
+    // console.log("addedNote", addedNote)
     this.setNotes(addedNote)
   }
 
   displayNotation = () => {
     const notesString = this.state.notes.join(" ")
-    console.log("notesString", notesString)
+    // console.log("notesString", notesString)
     const notation = `X: 1 \nC: Marlon \nM: 4/4 \nL: 1/4 \n%%staves {V1} \nV: V1 clef=treble \n[V: V1] ${notesString}|]`
-    console.log("notation", notation)
+    // console.log("notation", notation)
     return notation
   }
 
-  componentDidMount() {
-    fetch(`${API_ROOT}/api/v1/users`)
-      .then(res => res.json())
-      .then(console.log)
-  }
+  // componentDidMount() {
+  //   fetch(`${API_ROOT}/api/v1/users`)
+  //     .then(res => res.json())
+  //     .then(console.log)
+  // }
 
   handleSongChange = (event) => {
     this.setState({
@@ -134,8 +134,10 @@ export default class SongContainer extends Component {
 
 
    render() {
+     // console.log(this.props.clearSong)
      return (
         <div>
+          <button onClick={() => this.props.clearSong()}>Clear Song</button>
           <div>
             <Midi notation={this.displayNotation()}/>
           </div>

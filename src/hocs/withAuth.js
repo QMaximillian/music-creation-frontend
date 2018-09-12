@@ -6,7 +6,7 @@ const withAuth = (WrappedComponent) => {
   return class extends React.Component {
     render(){
       if (this.props.loggedIn) {
-      return <WrappedComponent dog="dog" {...this.props}/>
+      return <WrappedComponent {...this.props}/>
     } else if (localStorage.getItem('token')){
       return <div>Loading</div>
     } else {

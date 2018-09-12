@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { fetchLoginUser } from '../authAdapter'
-import HomeContainer from '../containers/HomeContainer'
-import { Route } from 'react-router-dom'
+// import HomeContainer from '../containers/HomeContainer'
 export default class Login extends Component {
 
   state = {
