@@ -1,13 +1,24 @@
 import React, { Component } from 'react'
 // import Editor from './Components/Editor'
+<<<<<<< HEAD
 // import { API_ROOT } from '../constants';
 import Midi from '../components/Midi'
 import Notation from '../components/Notation'
 import BasicPiano from '../components/Piano'
 import SongView from '../components/SongView.js'
 // import ActionCable from 'actioncable'
+=======
+import { ActionCable } from 'react-actioncable-provider'
+import { API_ROOT } from '../constants';
+import MidiContainer from '../Components/Midi'
+import Notation from '../Components/Notation'
+import Editor from '../Components/Editor'
+import BasicPiano from '../Components/Piano'
+import SongView from '../Components/SongView.js'
+>>>>>>> b8c5b855a64676723f8237e7b13be20c9c2d35e3
 
 
+<<<<<<< HEAD
 
 class SongContainer extends Component {
   constructor(props) {
@@ -64,6 +75,13 @@ class SongContainer extends Component {
       },
       body: JSON.stringify({content: this.state.content})
       })
+=======
+  state = {
+    notes: [` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`],
+    inTextAreas: false,
+    songName: "",
+    lyrics: [`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`],
+>>>>>>> b8c5b855a64676723f8237e7b13be20c9c2d35e3
   }
 
 
@@ -73,8 +91,14 @@ class SongContainer extends Component {
   setNotes = (notes) => {
     this.setState({
       notes: notes
-    //}, () => {console.log("setnotes", this.state.notes)
-})
+    })
+  }
+
+  setLyrics = (lyrics) => {
+    this.setState({
+      lyrics: lyrics
+    }, () => {console.log("setWord", this.state.lyrics)
+  })
   }
 
   captureNote = (e) => {
@@ -126,20 +150,84 @@ class SongContainer extends Component {
   }
 
   generateNotation = (midiNumber) => {
-    // console.log("midi",midiNumber)
     const note = this.translateMidi(midiNumber)
-    // console.log("note", note)
-    const addedNote = [...this.state.notes, note]
-    // console.log("addedNote", addedNote)
+    let addedNote = []
+    if (this.state.notes[15]===` yy`) {
+      const placeHere = this.state.notes.indexOf(` yy`)
+      addedNote = [...this.state.notes]
+      addedNote[placeHere] = note
+    } else {
+      addedNote = [...this.state.notes.slice(1), note]
+    }
     this.setNotes(addedNote)
   }
 
+  generateBar = (arr) => {
+    const Bar1 = arr.slice(0, 4).join(" ")
+    const Bar2 = arr.slice(4, 8).join(" ")
+    const Bar3 = arr.slice(8, 12).join(" ")
+    const Bar4 = arr.slice(12, 16).join(" ")
+    const fullBar = `${Bar1}|${Bar2}|${Bar3}|${Bar4}`
+    console.log("fullbar", fullBar)
+    return fullBar
+  }
+
+  generateAudStr = () => {
+    const Bar1 = this.state.notes.slice(0, 4).join(" ")
+    const Bar2 = this.state.notes.slice(4, 8).join(" ")
+    const Bar3 = this.state.notes.slice(8, 12).join(" ")
+    const Bar4 = this.state.notes.slice(12, 16).join(" ")
+    const fullBar = `${Bar1}|${Bar2}|${Bar3}|${Bar4}`
+    console.log("audiofullbar", fullBar)
+    return fullBar
+  }
+
   displayNotation = () => {
-    const notesString = this.state.notes.join(" ")
-    // console.log("notesString", notesString)
-    const notation = `X: 1 \nC: Marlon \nM: 4/4 \nL: 1/4 \n%%staves {V1} \nV: V1 clef=treble \n[V: V1] ${notesString}|]`
-    // console.log("notation", notation)
+    const notation = `X: 1 \nC: Marlon \nL: 1/16 \nM: 4/4 \n%%staves {V1} \nV: V1 clef=treble \n[V: V1] ${this.generateBar(this.state.notes)}|] \nw:${this.generateBar(this.state.lyrics)}`
     return notation
+  }
+
+  handleSongChange = (e) => {
+    // console.log(e.target.value)
+    const placeHere = this.state.lyrics.indexOf(`word`)
+    // console.log("placehere", placeHere)
+    const stateSize = this.state.lyrics.slice(0, placeHere).length
+    // console.log("statesize", stateSize)
+    const valueArr = e.target.value.split(" ")
+    // console.log("valueArr", valueArr)
+    const valueSize = valueArr.length
+    // console.log("valueSize", valueSize)
+    if (valueSize > stateSize){
+      console.log("last", valueArr[valueArr.length-2]);
+      this.generateLyrics(valueArr[valueArr.length-2])
+    }
+  }
+
+  // handleSongChange = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   }, () => console.log("handle song change", this.state))
+  //     }
+
+  generateLyrics = (word) => {
+    console.log("gen", word);
+    let addedWord = []
+    if (this.state.lyrics[15]===`word`) {
+      const placeHere = this.state.lyrics.indexOf(`word`)
+      addedWord = [...this.state.lyrics]
+      addedWord[placeHere] = word
+      console.log("cond1", addedWord, "placehere", placeHere);
+    } else {
+      console.log("word", word);
+
+      addedWord = [...this.state.lyrics.slice(1),  `${word}`]
+      console.log("added the state", addedWord);
+
+      // addedWord[-1] = ` ${word}`
+      // console.log("added the word", addedWord);
+    }
+    console.log("bottomgen", addedWord);
+    this.setLyrics(addedWord)
   }
 
   handleTextAreaOnFocus = (event) => {
@@ -165,6 +253,9 @@ class SongContainer extends Component {
      // () => console.log("handle song change", this.state)
   }
   }
+  // handleKeyPress = (e) => {
+  //   console.log("handlekeypress", e.target)
+  // }
 
 
    render() {
@@ -174,8 +265,9 @@ class SongContainer extends Component {
 
           <button onClick={(event) => this.fetchUpdateSongRoom(event)}>Save Song</button>
           <div>
-            <Midi notation={this.displayNotation()}/>
-          </div>
+            <MidiContainer generateAudStr={this.generateAudStr()}/></div>
+          {/* <div>Midi <Midi generateAudStr={"^D4 ^D4 ^D4 ^D4|^D4 ^F4 ^G4 ^G4|^G4  yy  yy  yy| yy  yy  yy  yy"}/></div> */}
+          {/* <div>Editor <Editor notation={this.displayNotation}/></div> */}
           <div>
             <Notation notation={this.displayNotation()}/>
           </div>
@@ -183,6 +275,9 @@ class SongContainer extends Component {
             <SongView
               content={this.state.content}
               handleLyricChange={this.handleLyricChange}
+              lyrics={this.state.lyrics}
+              handleKeyPress={this.handleKeyPress}
+              handleSongChange={this.handleSongChange}
               handleTextAreaOnBlur={this.handleTextAreaOnBlur}
               handleTextAreaOnFocus={this.handleTextAreaOnFocus}
             />
@@ -190,10 +285,8 @@ class SongContainer extends Component {
           <div>
             <BasicPiano
             stateOfTextArea={this.state.inTextAreas}
-            captureNote={this.captureNote}
-            // notation={this.state.notation}
-            />
-          </div>
+             captureNote={this.captureNote} />
+         </div>
         </div>
      )
    }
