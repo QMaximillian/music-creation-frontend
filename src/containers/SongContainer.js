@@ -1,32 +1,23 @@
 import React, { Component } from 'react'
 // import Editor from './Components/Editor'
-<<<<<<< HEAD
-// import { API_ROOT } from '../constants';
-import Midi from '../components/Midi'
-import Notation from '../components/Notation'
-import BasicPiano from '../components/Piano'
-import SongView from '../components/SongView.js'
-// import ActionCable from 'actioncable'
-=======
 import { ActionCable } from 'react-actioncable-provider'
 import { API_ROOT } from '../constants';
-import MidiContainer from '../Components/Midi'
-import Notation from '../Components/Notation'
-import Editor from '../Components/Editor'
-import BasicPiano from '../Components/Piano'
-import SongView from '../Components/SongView.js'
->>>>>>> b8c5b855a64676723f8237e7b13be20c9c2d35e3
+import MidiContainer from '../components/Midi'
+import Notation from '../components/Notation'
+import Editor from '../components/Editor'
+import BasicPiano from '../components/Piano'
+import SongView from '../components/SongView.js'
 
-
-<<<<<<< HEAD
 
 class SongContainer extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      notes: [],
+      notes: [` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`],
       inTextAreas: false,
+      songName: "",
+      lyrics: [`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`],
       content: '',
       lyricMessageId: 0
     }
@@ -53,14 +44,14 @@ class SongContainer extends Component {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': localStorage.getItem('token')
-    }
-  }).then(resp => resp.json()).then(resp =>
+      }
+    }).then(resp => resp.json()).then(resp =>
 
-    this.setState({
-      lyricMessageId: resp.data.attributes['lyric-message'].id,
-    content: resp.data.attributes['lyric-message']['content']
-  }))
-}
+      this.setState({
+        lyricMessageId: resp.data.attributes['lyric-message'].id,
+      content: resp.data.attributes['lyric-message']['content']
+    }))
+  }
 
 
   fetchUpdateSongRoom = (event) => {
@@ -75,15 +66,7 @@ class SongContainer extends Component {
       },
       body: JSON.stringify({content: this.state.content})
       })
-=======
-  state = {
-    notes: [` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`,` yy`],
-    inTextAreas: false,
-    songName: "",
-    lyrics: [`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`,`word`],
->>>>>>> b8c5b855a64676723f8237e7b13be20c9c2d35e3
-  }
-
+    }
 
 
 
@@ -187,9 +170,9 @@ class SongContainer extends Component {
     return notation
   }
 
-  handleSongChange = (e) => {
+  handleLyricChange = (e) => {
     // console.log(e.target.value)
-    const placeHere = this.state.lyrics.indexOf(`word`)
+    const placeHere = this.state.lyrics.indexOf(`__`)
     // console.log("placehere", placeHere)
     const stateSize = this.state.lyrics.slice(0, placeHere).length
     // console.log("statesize", stateSize)
@@ -201,6 +184,12 @@ class SongContainer extends Component {
       console.log("last", valueArr[valueArr.length-2]);
       this.generateLyrics(valueArr[valueArr.length-2])
     }
+
+
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+     // () => console.log("handle song change", this.state)
   }
 
   // handleSongChange = (event) => {
@@ -212,8 +201,8 @@ class SongContainer extends Component {
   generateLyrics = (word) => {
     console.log("gen", word);
     let addedWord = []
-    if (this.state.lyrics[15]===`word`) {
-      const placeHere = this.state.lyrics.indexOf(`word`)
+    if (this.state.lyrics[15]===`__`) {
+      const placeHere = this.state.lyrics.indexOf(`__`)
       addedWord = [...this.state.lyrics]
       addedWord[placeHere] = word
       console.log("cond1", addedWord, "placehere", placeHere);
@@ -244,18 +233,9 @@ class SongContainer extends Component {
       })
   }
 
-  handleLyricChange = (event) => {
+  // handleLyricChange = (event) => {
+  //
 
-    if (this.state.content !== event.target.value) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-     // () => console.log("handle song change", this.state)
-  }
-  }
-  // handleKeyPress = (e) => {
-  //   console.log("handlekeypress", e.target)
-  // }
 
 
    render() {
@@ -264,8 +244,8 @@ class SongContainer extends Component {
         <div>
 
           <button onClick={(event) => this.fetchUpdateSongRoom(event)}>Save Song</button>
-          <div>
-            <MidiContainer generateAudStr={this.generateAudStr()}/></div>
+          {/* <div> */}
+            {/* <MidiContainer generateAudStr={this.generateAudStr()}/></div> */}
           {/* <div>Midi <Midi generateAudStr={"^D4 ^D4 ^D4 ^D4|^D4 ^F4 ^G4 ^G4|^G4  yy  yy  yy| yy  yy  yy  yy"}/></div> */}
           {/* <div>Editor <Editor notation={this.displayNotation}/></div> */}
           <div>
@@ -277,7 +257,7 @@ class SongContainer extends Component {
               handleLyricChange={this.handleLyricChange}
               lyrics={this.state.lyrics}
               handleKeyPress={this.handleKeyPress}
-              handleSongChange={this.handleSongChange}
+              // handleSongChange={this.handleSongChange}
               handleTextAreaOnBlur={this.handleTextAreaOnBlur}
               handleTextAreaOnFocus={this.handleTextAreaOnFocus}
             />

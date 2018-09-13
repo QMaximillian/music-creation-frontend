@@ -28,22 +28,16 @@ export default class SongView extends Component {
         <label>Song Name</label>
         <textarea
           // style={{ width:"500px", height:"300px" }}
-<<<<<<< HEAD
           name="content"
           placeholder="Lyrics"
           value={this.props.content}
           onChange={(event) => this.props.handleLyricChange(event)}
-=======
-          name="lyrics"
-          placeholder="Lyrics"
-          // value={props.lyrics}
-          onChange={(event) => props.handleSongChange(event)}
->>>>>>> b8c5b855a64676723f8237e7b13be20c9c2d35e3
+          // name="lyrics"
+          // placeholder="Lyrics"
+          // // value={props.lyrics}
+          // onChange={(event) => props.handleSongChange(event)}
         >
         </textarea>
-        <button
-        className="massive ui button" type="Submit">Submit
-      </button>
     </form>
   </div>
 
