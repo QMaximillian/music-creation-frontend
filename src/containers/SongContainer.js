@@ -19,7 +19,9 @@ class SongContainer extends Component {
       songName: "",
       lyrics: [`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`,`__`],
       content: '',
-      lyricMessageId: 0
+      mcontent: '',
+      lyricMessageId: 0,
+      musicMessageId: 0
     }
 
   //   const cable = ActionCable.createConsumer('ws://localhost:3001/api/v1/cable')
@@ -49,7 +51,9 @@ class SongContainer extends Component {
 
       this.setState({
         lyricMessageId: resp.data.attributes['lyric-message'].id,
-      content: resp.data.attributes['lyric-message']['content']
+      content: resp.data.attributes['lyric-message']['content'],
+      musicMessageId: resp.data.attributes['music-message'].id,
+    mcontent: resp.data.attributes['music-message']['content']
     }))
   }
 
@@ -66,6 +70,17 @@ class SongContainer extends Component {
       },
       body: JSON.stringify({content: this.state.content})
       })
+
+    fetch(`http://localhost:3001/api/v1/music_messages/${this.state.musicMessageId}`, {
+      method: "PATCH",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      },
+      body: JSON.stringify({content: this.state.mcontent})
+      })
+
     }
 
 
@@ -74,6 +89,12 @@ class SongContainer extends Component {
   setNotes = (notes) => {
     this.setState({
       notes: notes
+    })
+  }
+
+  setMContent = (nstring) => {
+    this.setState({
+      mcontent: nstring
     })
   }
 
@@ -142,6 +163,7 @@ class SongContainer extends Component {
     } else {
       addedNote = [...this.state.notes.slice(1), note]
     }
+    this.setMContent(this.generateBar(addedNote))
     this.setNotes(addedNote)
   }
 
@@ -166,7 +188,7 @@ class SongContainer extends Component {
   }
 
   displayNotation = () => {
-    const notation = `X: 1 \nC: Marlon \nL: 1/16 \nM: 4/4 \n%%staves {V1} \nV: V1 clef=treble \n[V: V1] ${this.generateBar(this.state.notes)}|] \nw:${this.generateBar(this.state.lyrics)}`
+    const notation = `X: 1 \nC: Marlon \nL: 1/16 \nM: 4/4 \n%%staves {V1} \nV: V1 clef=treble \n[V: V1] ${(this.state.mcontent)}|] \nw:${this.generateBar(this.state.lyrics)}`
     return notation
   }
 
