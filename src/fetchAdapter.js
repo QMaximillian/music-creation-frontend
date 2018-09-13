@@ -16,9 +16,10 @@ export const fetchGetUser = (user_id) => {
 export const fetchPostLyricSongRoom = (id) => {
   console.log(id);
   const data = {
-      'lyricist-id': id,
-      'musician-id': "Uhuh",
-      'song-name': "Honey"
+
+      'lyricist_id': id,
+      'musician_id': id,
+      'song_name': "Honey"
     }
   fetch(`http://localhost:3001/api/v1/song_rooms`, {
     method: "POST",
