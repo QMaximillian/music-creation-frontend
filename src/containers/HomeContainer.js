@@ -34,21 +34,32 @@ class HomeContainer extends Component {
 
     createRoom = (type, id) => {
       if (type === "musician") {
-        fetchPostMusicSongRoom(id)
+        fetchPostLyricSongRoom(id)
       }
 
       if (type === 'lyricist') {
+        // console.log(id, this.props)
         fetchPostLyricSongRoom(id)
       }
     }
 
+    // handleSongNameChange = (event) => {
+    //   this.setState({
+    //     [event.target.name]: event.target.value
+    //   })
+    // }
+
+
+
     render() {
+      console.log(this.props.lyricistSongRooms);
       const { id } = this.props.currentUser
        return (
 
         <div>
           <label>MusicRooms</label>
           <button onClick={() => this.createRoom("musician", id)}>Create MusicRoom</button>
+          {/* <input name="songname" onChange={(event) => this.handleSongNameChange(event)}/> */}
           {this.mappedMusicianSongRooms()}
             <div>
               <br />

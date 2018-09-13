@@ -35,25 +35,27 @@ export default class LyricistSongRoom extends Component {
     //   })
     // }
    //
-    renderLyricistSongPage = (lyricistSongRoom) => {
-      // IMPORTANT //
-      // Rendering SongContainer? Or a specific MusicRoomContainer? //
-      console.log(this.props.lyricistSongRoom)
-        return (
-          // <ActionCableProvider url='ws://localhost:3001/api/v1/cable'>
-          // <Redirect to='/song-container/'/>
 
 
-          <SongContainer
-          // clearSong={this.clearSong}
-           id={this.state.currentSong.id}
-        />
-
-        )
-  }
+  //   renderLyricistSongPage = () => {
+  //     // IMPORTANT //
+  //     // Rendering SongContainer? Or a specific MusicRoomContainer? //
+  //     console.log("label", this.props.lyricistSongRoom)
+  //       return (
+  //
+  //         <SongContainer
+  //           // songName={lyricistSongRoom.song_name}
+  //          id={this.state.currentSong.id}
+  //       />
+  //       )
+  // }
    //
+
+
+
    render() {
-     // console.log(this.state.currentSong)
+     // console.log(this.props.lyricistSongRoom.song_name)
+     const joinedName = this.props.lyricistSongRoom.song_name.replace(" ", "")
 
      const { song_name } = this.props.lyricistSongRoom
      return (
@@ -61,7 +63,7 @@ export default class LyricistSongRoom extends Component {
           {
             this.state.empty ?
             <div onDoubleClick={() => this.handleSongPick(this.props.lyricistSongRoom)}>
-              <Link to={`/song-room/${this.props.lyricistSongRoom.id}`}>
+              <Link to={`/song-room/${this.props.lyricistSongRoom.id}/${joinedName}`}>
               <div>{song_name}</div>
             </Link>
             </div> :

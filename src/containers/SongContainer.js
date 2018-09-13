@@ -173,7 +173,7 @@ class SongContainer extends Component {
     const Bar3 = arr.slice(8, 12).join(" ")
     const Bar4 = arr.slice(12, 16).join(" ")
     const fullBar = `${Bar1}|${Bar2}|${Bar3}|${Bar4}`
-    console.log("fullbar", fullBar)
+    // console.log("fullbar", fullBar)
     return fullBar
   }
 
@@ -261,7 +261,7 @@ class SongContainer extends Component {
 
 
    render() {
-
+     console.log(this.props)
      return (
         <div>
 
@@ -275,6 +275,7 @@ class SongContainer extends Component {
           </div>
           <div>
             <SongView
+              songName={this.props.songName}
               content={this.state.content}
               handleLyricChange={this.handleLyricChange}
               lyrics={this.state.lyrics}

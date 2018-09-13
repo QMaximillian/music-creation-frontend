@@ -17,7 +17,7 @@ export default class SongView extends Component {
 
 
   render () {
-    // this.fetchWebSocket()
+    console.log(this.props);
   return(
     <div>
       <form
@@ -25,9 +25,10 @@ export default class SongView extends Component {
         onFocus={this.props.handleTextAreaOnFocus}
         className="ui grid container" onSubmit={this.props.handleSongSubmit}
       >
-        <label>Song Name</label>
+        <label>Song: {this.props.songName}</label>
+        <br />
         <textarea
-          // style={{ width:"500px", height:"300px" }}
+          style={{ width:"900px", height:"100px" }}
           name="content"
           placeholder="Lyrics"
           value={this.props.content}

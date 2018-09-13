@@ -34,14 +34,15 @@ export default class MusicianSongRoom extends Component {
     }
 
    render() {
-     // console.log(this.state.currentSong)
+     const joinedName = this.props.musicianSongRoom.song_name.replace(" ", "")
+
      const { song_name } = this.props.musicianSongRoom
      return (
         <div>
           {
             this.state.empty ?
             <div onDoubleClick={() => this.handleSongPick(this.props.musicianSongRoom)}>
-              <Link to={`/song-room/${this.props.musicianSongRoom.id}`}>
+              <Link to={`/song-room/${this.props.musicianSongRoom.id}/${joinedName}`}>
               <div>{song_name}</div>
             </Link>
             </div> :
